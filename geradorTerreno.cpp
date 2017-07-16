@@ -16,7 +16,7 @@ float escala; //escala ( para movimentacao da camera)
 float anguloX, anguloY; //para rotacao da camera
 float mapaH;
 float hmPixPos;
-float maxAlt, minAlt, range; //ponto mais alto, mais baixo e sua diferença
+float maxAlt, minAlt, range; //ponto mais alto, mais baixo e sua diferenÃ§a
 float luz1Pos[3], luz2Pos[3]; //vetor de pos da luz
 int luzPos; //luz selecionada
 int win1, win2; //id de janela
@@ -113,7 +113,7 @@ float* iniciaTerreno (int width, int length) { //gera plano com y = 5
 	return terreno;
 }
 
-//APLICAÇÃO DE COR AO TERRENO
+//APLICAÃ‡ÃƒO DE COR AO TERRENO
 void colorirVert(float altVert) {
 	float altInterv;
     altInterv = (altVert-minAlt)/range;
@@ -145,7 +145,7 @@ void colorirAgua(float R, float G, float B){
     }
 }
 
-//RENDERIZAÇÃO DO TERRENO
+//RENDERIZAÃ‡ÃƒO DO TERRENO
 void renderTerreno(float* t, int width, int length) {
 
     float vertA, vertB, altAgua, R, G, B;
@@ -261,21 +261,18 @@ int getPosicaoMatriz(int lin, int col, int tam){
 /*
 void diamondSquare(float * mapAlt, int tam){
 
-    //zValues => mapAlt
-
-    // Initialize the four corners with a pre-seeded value
-    //float zValues[tam][tam];
+   
 
     mapAlt[getPosicaoMatriz(0,0,tam)] = 0.05;
     mapAlt[getPosicaoMatriz(tam-1,0,tam)] = 0.05;
     mapAlt[getPosicaoMatriz(0,tam-1,tam)] = 0.05;
     mapAlt[getPosicaoMatriz(tam-1,tam-1,tam)] = 0.05;
 
-    // Diamond-Square algorithm
+    // Diamond-Square
     int halfStep, stepSize = tam - 1;
-    float lower = -0.1;
-    float upper = 0.1;
-    float topLeft, topRight, botLeft, botRight, left, right, up, down, avg, rand;
+    float chao = -0.1;
+    float teto = 0.1;
+    float topoEsq, topoDir, baseEsq, baseDir, esq, dir, topo, base, media, rand;
 
     int x, y, xStart;
 
@@ -284,41 +281,41 @@ void diamondSquare(float * mapAlt, int tam){
 
         for (y = 0; y < tam; y += stepSize) {
             for (x = 0; x < tam; x += stepSize) {
-                topLeft  = mapAlt[getPosicaoMatriz(x,y,tam)];
-                topRight = mapAlt[getPosicaoMatriz(x + stepSize,y,tam)];
-                botLeft  = mapAlt[getPosicaoMatriz(x,y + stepSize,tam)];
-                botRight = mapAlt[getPosicaoMatriz(x + stepSize,y + stepSize,tam)];
+                topoEsq  = mapAlt[getPosicaoMatriz(x,y,tam)];
+                topoDir = mapAlt[getPosicaoMatriz(x + stepSize,y,tam)];
+                baseEsq  = mapAlt[getPosicaoMatriz(x,y + stepSize,tam)];
+                baseDir = mapAlt[getPosicaoMatriz(x + stepSize,y + stepSize,tam)];
 
-                avg = (topLeft + topRight + botLeft + botRight) / 4;
-                rand = randRange(lower, upper); //numero randomico com max e min
-                mapAlt[getPosicaoMatriz(x + halfStep,y + halfStep,tam)] = avg + rand;
+                media = (topoEsq + topoDir + baseEsq + baseDir) / 4;
+                rand = randRange(chao, teto); //numero randomico com max e min
+                mapAlt[getPosicaoMatriz(x + halfStep,y + halfStep,tam)] = med + rand;
             }
         }
 
-        int even = 1;
+        int impar = 1;
         for (y = 0; y < tam; y += halfStep) {
-            xStart = even ? 0 : halfStep;
+            xStart = impar ? 0 : halfStep;
             for (x = xStart; x < tam; x += halfStep) {
-                left  = ((x - halfStep) < 0)  ? 0 : mapAlt[getPosicaoMatriz(x - halfStep,y,tam)];
-                right = ((x + halfStep) >= tam) ? 0 : mapAlt[getPosicaoMatriz(x + halfStep,y,tam)];
-                up    = mapAlt[getPosicaoMatriz(x,y + halfStep,tam)];
+                esq  = ((x - halfStep) < 0)  ? 0 : mapAlt[getPosicaoMatriz(x - halfStep,y,tam)];
+                dir = ((x + halfStep) >= tam) ? 0 : mapAlt[getPosicaoMatriz(x + halfStep,y,tam)];
+                topo    = mapAlt[getPosicaoMatriz(x,y + halfStep,tam)];
                 //printf("x - %d , y - %d , halfStep - %d\n",x , y, halfStep);
-                down  = mapAlt[getPosicaoMatriz(x,y - halfStep,tam)];
-                //printf("Down- %d\n", down);
+                base  = mapAlt[getPosicaoMatriz(x,y - halfStep,tam)];
+                //printf("base- %d\n", base);
 
-                avg = (left + right + up + down) / 4;
-                rand = randRange(lower, upper);
-                mapAlt[getPosicaoMatriz(x,y,tam)] = avg + rand;
+                media = (esq + dir + topo + base) / 4;
+                rand = randRange(chao, teto);
+                mapAlt[getPosicaoMatriz(x,y,tam)] = media + rand;
             }
-            if(even == 1)
-                even = 0;
+            if(impar == 1)
+                impar = 0;
             else
-                even = 1;
+                impar = 1;
         }
 
         stepSize /= 2;
-        lower += 0.005;
-        upper -= 0.005;
+        chao += 0.005;
+        teto -= 0.005;
     }
 
 }
@@ -462,7 +459,7 @@ void comandos(unsigned char key, int x, int y) {
 		case 'A':       // ADICIONA/REMOVE AGUA
 			ligaAgua = !ligaAgua;
 			break;
-		case 'C':       // MUDA MODO DE COLORIZAÇÃO
+		case 'C':       // MUDA MODO DE COLORIZAÃ‡ÃƒO
 			ligacor = !ligacor;
 			break;
 	}
@@ -534,17 +531,17 @@ int main(int argc, char** argv) {
     srand( (unsigned)time(NULL) );
 
 	/*
-	resol = 128; // resolução - deve que ser potência de 2
+	resol = 128; // resoluÃ§Ã£o - deve que ser potÃªncia de 2
 	interv = 300; // intervalo de alturas
 	fatRugosidade = 1.0; // fator de rugosidade - menor = mais rugoso
     */
 
-	resol = 512; // resolução - deve que ser potência de 2
+	resol = 512; // resoluÃ§Ã£o - deve que ser potÃªncia de 2
 	interv = 2000; // intervalo de alturas
 	fatRugosidade = 1.0; // fator de rugosidade - menor = mais rugoso
 
 	/*
-	resol = 512; // resolução - deve que ser potência de 2
+	resol = 512; // resoluÃ§Ã£o - deve que ser potÃªncia de 2
 	interv = 100; // intervalo de alturas
 	fatRugosidade = 0.1; // fator de rugosidade - menor = mais rugoso
 	*/
